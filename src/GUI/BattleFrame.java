@@ -1,7 +1,11 @@
 package GUI;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 public class BattleFrame extends JFrame {
     public BattleFrame() {
@@ -11,19 +15,25 @@ public class BattleFrame extends JFrame {
         this.setVisible(true);
         ImageIcon icon = new ImageIcon("./images/Poké_Ball.png");
         this.setIconImage(icon.getImage());
-        this.getContentPane().setBackground(new Color(250, 185, 0));
+
+        BufferedImage myPicture = null;
+        try {
+            myPicture = ImageIO.read(new File("./images/grass-background.png"));
+            JLabel picLabel = new JLabel(new ImageIcon(myPicture));
+            this.setContentPane(picLabel);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         this.setLayout(null);
 
         BattleSideMenu battleSideMenu = new BattleSideMenu();
         this.add(battleSideMenu);
 
-//        GUI.FakeemonDisplay fakeemonDisplay = new GUI.FakeemonDisplay(GUI.FakeemonDisplay.player.first);
-//        this.add(fakeemonDisplay);
-
         BattleArena battleArena = new BattleArena();
         this.add(battleArena);
 
-        this.setSize(720, 480);
+        this.setSize(600, 420);
 
     }
 }

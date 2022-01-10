@@ -12,11 +12,13 @@ public class FakeemonDisplay extends JPanel {
 
     FakeemonDisplay(player pos){
         this.setLayout(new FlowLayout());
-        this.setBounds(50,50,400,100);
+        this.setBounds(0,0,400,100);
+        this.setBackground(new Color(1.0f,1.0f,1.0f,0.0f));
         JProgressBar progressBar = new JProgressBar(0,120);
         progressBar.setValue(77);
         progressBar.setStringPainted(true);
         progressBar.setString("77/120");
+        progressBar.setForeground(Color.RED);
 
 
         if(pos == player.first){
@@ -26,7 +28,7 @@ public class FakeemonDisplay extends JPanel {
 
         BufferedImage myPicture = null;
         try {
-            myPicture = ImageIO.read(new File("./images/fakeemon/aardart-front.png"));
+            myPicture = ImageIO.read(getImage("bamboon",pos));
             JLabel picLabel = new JLabel(new ImageIcon(myPicture));
             this.add(picLabel);
         } catch (IOException e) {
@@ -38,6 +40,18 @@ public class FakeemonDisplay extends JPanel {
 
         }
 
+    }
+
+    private File getImage(String fakeemonName , player pos){
+        String loc = "";
+        if(pos == player.first){
+            loc = "front";
+        }
+        else {
+            loc = "back";
+        }
+        String sf=String.format("./images/fakeemon/%s-%s.png",fakeemonName,loc);
+        return new File(sf);
     }
 
 
