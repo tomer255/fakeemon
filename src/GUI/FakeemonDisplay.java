@@ -10,7 +10,7 @@ import java.io.IOException;
 public class FakeemonDisplay extends JPanel {
     ImageIcon FakeemonPhoto;
 
-    FakeemonDisplay(player pos){
+    FakeemonDisplay(playerLocation pos){
         this.setLayout(new FlowLayout());
         this.setBounds(0,0,400,100);
         this.setBackground(new Color(1.0f,1.0f,1.0f,0.0f));
@@ -21,9 +21,8 @@ public class FakeemonDisplay extends JPanel {
         progressBar.setForeground(Color.RED);
 
 
-        if(pos == player.first){
+        if(pos == playerLocation.first){
             this.add(progressBar);
-
         }
 
         BufferedImage myPicture = null;
@@ -35,16 +34,15 @@ public class FakeemonDisplay extends JPanel {
             e.printStackTrace();
         }
 
-        if(pos == player.second){
+        if(pos == playerLocation.second){
             this.add(progressBar);
-
         }
 
     }
 
-    private File getImage(String fakeemonName , player pos){
+    private File getImage(String fakeemonName , playerLocation pos){
         String loc = "";
-        if(pos == player.first){
+        if(pos == playerLocation.first){
             loc = "front";
         }
         else {
@@ -55,7 +53,7 @@ public class FakeemonDisplay extends JPanel {
     }
 
 
-    enum player{
+    enum playerLocation {
         first,
         second
     }
