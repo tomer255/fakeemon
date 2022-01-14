@@ -8,10 +8,10 @@ public class BattleArena extends JPanel {
         this.setLayout(new GridLayout(2,1));
         this.setBounds(0,20,400,200);
         this.setBackground(new Color(1.0f,1.0f,1.0f,0.0f));
-        FakeemonDisplay player1 = new FakeemonDisplay(FakeemonDisplay.player.first);
-        FakeemonDisplay player2 = new FakeemonDisplay(FakeemonDisplay.player.second);
+        FakeemonDisplay fakeemonDisplay1 = new FakeemonDisplay(FakeemonDisplay.playerLocation.first);
+        FakeemonDisplay fakeemonDisplay2 = new FakeemonDisplay(FakeemonDisplay.playerLocation.second);
 
-        this.add(player1);
-        this.add(player2);
+        this.add(fakeemonDisplay1);
+        this.add(fakeemonDisplay2);
     }
 }
