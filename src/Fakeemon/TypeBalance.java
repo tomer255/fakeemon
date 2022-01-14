@@ -1,9 +1,10 @@
+package Fakeemon;
 
 public final class TypeBalance {
 
-    float[][] bonus = new float[Type.values().length][Type.values().length];
+    private float[][] bonus = new float[Type.values().length][Type.values().length];
 
-    void initialize(){
+    public void initialize(){
 
         setBonus(Type.Fire,Type.Fire,0.5f);
         setBonus(Type.Fire,Type.Water,0.5f);
@@ -18,15 +19,15 @@ public final class TypeBalance {
         setBonus(Type.Grass,Type.Grass,0.5f);
     }
 
-    void setBonus(Type attacker,Type defender,float vale){
+    private void setBonus(Type attacker,Type defender,float vale){
         bonus[attacker.ordinal()][defender.ordinal()] = vale;
     }
 
-    float getBonus(Type attacker,Type defender){
+    public float getBonus(Type attacker,Type defender){
         return bonus[attacker.ordinal()][defender.ordinal()];
     }
 
-    enum Type{
+    public enum Type{
         Fire,
         Water,
         Grass,
