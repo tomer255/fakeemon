@@ -1,9 +1,13 @@
+package Fakeemon;
+
 import java.util.List;
 
+import Moves.*;
+
 public class Fekeemon {
-    private String pokemonName;
+    private String Name;
     private TypeBalance.Type type;
-    private float TotalHP;
+    private float MaxHP;
     private float currentHP;
     private List<Move> attackPool;
     private float attackDamage;
@@ -17,11 +21,11 @@ public class Fekeemon {
     private float spDefBaseStrengthAmplifier;
     private float speedAmplifier;
 
-    public Fekeemon(String pokemonName, TypeBalance.Type type, float totalHP, float currentHP, List<Move> attackPool,
+    public Fekeemon(String Name, TypeBalance.Type type, float MaxHP, float currentHP, List<Move> attackPool,
                     float attackDamage, float defenseStrength, float spAtkBaseDamage, float spDefBaseStrength, float speed) {
-        this.pokemonName = pokemonName;
+        this.Name = Name;
         this.type = type;
-        this.TotalHP = totalHP;
+        this.MaxHP = MaxHP;
         this.currentHP = currentHP;
         this.attackPool = attackPool;
         this.attackDamage = attackDamage;
