@@ -4,7 +4,10 @@ import java.util.List;
 
 import Moves.*;
 
-public class Fekeemon {
+import static java.lang.Float.max;
+import static java.lang.Float.min;
+
+public class Fakeemon {
     private String Name;
     private TypeBalance.Type type;
     private float MaxHP;
@@ -21,7 +24,35 @@ public class Fekeemon {
     private float spDefBaseStrengthAmplifier;
     private float speedAmplifier;
 
-    public Fekeemon(String Name, TypeBalance.Type type, float MaxHP, float currentHP, List<Move> attackPool,
+    public float getMaxHP() {
+        return MaxHP;
+    }
+
+    public float getCurrentHP() {
+        return currentHP;
+    }
+
+    public String getName() {
+        return Name;
+    }
+
+    public TypeBalance.Type getType() {
+        return type;
+    }
+
+    public void Damage(float amount){
+        this.currentHP = max(this.currentHP - amount,0);
+    }
+
+    public List<Move> getAttackPool() {
+        return attackPool;
+    }
+
+    public void Heal(float amount){
+        this.currentHP = min(this.currentHP + amount,this.MaxHP);
+    }
+
+    public Fakeemon(String Name, TypeBalance.Type type, float MaxHP, float currentHP, List<Move> attackPool,
                     float attackDamage, float defenseStrength, float spAtkBaseDamage, float spDefBaseStrength, float speed) {
         this.Name = Name;
         this.type = type;

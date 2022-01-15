@@ -16,8 +16,8 @@ public class CustomButton extends JButton implements MouseListener{
     public CustomButton(String s) {
         this.setFocusPainted(false);
         this.setText(s);
-        this.setBorder(new RoundedBorder(50));
-//        this.setBorder(null);
+//        this.setBorder(new RoundedBorder(50));
+        this.setBorder(null);
         this.setForeground(textColor);
         this.setBackground(backgroundColor);
         this.setFont(defaultFont);

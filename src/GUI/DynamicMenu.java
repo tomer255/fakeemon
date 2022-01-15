@@ -4,6 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 
 public class DynamicMenu extends JPanel {
+    MoveMenu moveMenu = new MoveMenu();
+
     DynamicMenu(){
         this.setBounds(50,200,300,150);
         this.setBackground(new Color(1.0f,1.0f,1.0f,0.0f));
@@ -11,9 +13,7 @@ public class DynamicMenu extends JPanel {
         this.setLayout(new GridLayout(1,1,0,0));
     }
 
-    public void showMoveMenu(){
-        this.removeAll();
-        MoveMenu moveMenu = new MoveMenu();
-        this.add(moveMenu);
+    public MoveMenu getMoveMenu() {
+        return moveMenu;
     }
 }

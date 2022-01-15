@@ -1,10 +1,14 @@
 package Fakeemon;
 
-public final class TypeBalance {
+
+// using Singleton
+public class TypeBalance {
+
+    static TypeBalance typeBalance = new TypeBalance();
 
     private float[][] bonus = new float[Type.values().length][Type.values().length];
 
-    public void initialize(){
+    private TypeBalance(){
 
         setBonus(Type.Fire,Type.Fire,0.5f);
         setBonus(Type.Fire,Type.Water,0.5f);
@@ -23,8 +27,8 @@ public final class TypeBalance {
         bonus[attacker.ordinal()][defender.ordinal()] = vale;
     }
 
-    public float getBonus(Type attacker,Type defender){
-        return bonus[attacker.ordinal()][defender.ordinal()];
+    public static float getBonus(Type attacker,Type defender){
+        return typeBalance.bonus[attacker.ordinal()][defender.ordinal()];
     }
 
     public enum Type{
