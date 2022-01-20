@@ -6,67 +6,74 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import Fakeemon.Fakeemon;
+
+import Fakeemon.*;
 
 public class FakeemonDisplay extends JPanel {
-    ImageIcon FakeemonPhoto;
+    JProgressBar progressBar = new JProgressBar(0, 0);
+    JPanel info = new JPanel();
+    JLabel fakeemonName = new JLabel();
+    JLabel picLabel = new JLabel();
+    playerLocation pos;
 
-    Fakeemon fakeemon;
-    JProgressBar progressBar = new JProgressBar(0,0);
-
-    FakeemonDisplay(playerLocation pos,Fakeemon fakeemon){
+    FakeemonDisplay(playerLocation pos, Player player) {
+        Fakeemon fakeemon = player.getFakeemon();
         this.setLayout(new FlowLayout());
-        this.setBounds(0,0,400,100);
-        this.setBackground(new Color(1.0f,1.0f,1.0f,0.25f));
-        this.fakeemon = fakeemon;
-
-        progressBar.setMaximum((int)fakeemon.getMaxHP());
-        progressBar.setValue((int)fakeemon.getCurrentHP());
-        progressBar.setStringPainted(true);
-        progressBar.setString(String.format("%d/%d",(int)fakeemon.getCurrentHP(),(int)fakeemon.getMaxHP()));
-
+        this.setSize(400, 100);
+        this.setBackground(new Color(1.0f, 1.0f, 1.0f, 0.25f));
+//        progressBar.setSize(new Dimension(10, 100));
         progressBar.setForeground(Color.RED);
-//        TODO: Add the name of the fakeemon
+        progressBar.setBackground(Color.PINK);
+        this.pos = pos;
+        info.setLayout(new GridLayout(3, 1, 1, 1));
+        info.setBackground(new Color(1.0f, 1.0f, 1.0f, 0.0f));
+        info.add(fakeemonName);
+        info.add(progressBar);
+//        info.add(new JLabel("test"));
 
+        fakeemonName.setForeground(Color.WHITE);
 
-        if(pos == playerLocation.first){
-            this.add(progressBar);
+        if (pos == playerLocation.first) {
+            this.add(info);
         }
 
-        BufferedImage myPicture = null;
+        this.add(picLabel);
+
+        if (pos == playerLocation.second) {
+            this.add(info);
+        }
+
+        updateDisplay(player);
+    }
+
+    private ImageIcon getImage(String fakeemonName, playerLocation pos) {
+        String loc;
+        if (pos == playerLocation.first) {
+            loc = "front";
+        } else {
+            loc = "back";
+        }
+
+        String sf = String.format("./images/fakeemon/%s-%s.png", fakeemonName, loc);
+        ImageIcon icon = null;
         try {
-            myPicture = ImageIO.read(getImage(fakeemon.getName(),pos));
-            JLabel picLabel = new JLabel(new ImageIcon(myPicture));
-            this.add(picLabel);
+            BufferedImage myPicture = ImageIO.read(new File(sf));
+            icon = new ImageIcon(myPicture);
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        if(pos == playerLocation.second){
-            this.add(progressBar);
-        }
-
+        return icon;
     }
 
-    private File getImage(String fakeemonName , playerLocation pos){
-        String loc = "";
-        if(pos == playerLocation.first){
-            loc = "front";
-        }
-        else {
-            loc = "back";
-        }
-        String sf=String.format("./images/fakeemon/%s-%s.png",fakeemonName,loc);
-        return new File(sf);
+    public void updateDisplay(Player player) {
+        Fakeemon fakeemon = player.getFakeemon();
+        progressBar.setMaximum((int) fakeemon.getMaxHP());
+        progressBar.setValue((int) fakeemon.getCurrentHP());
+        progressBar.setStringPainted(true);
+        progressBar.setString(String.format("%d/%d", (int) fakeemon.getCurrentHP(), (int) fakeemon.getMaxHP()));
+        fakeemonName.setText(fakeemon.getName());
+        picLabel.setIcon(getImage(fakeemon.getName(), pos));
     }
-
-     public void update(){
-         progressBar.setMaximum((int)fakeemon.getMaxHP());
-         progressBar.setValue((int)fakeemon.getCurrentHP());
-         progressBar.setStringPainted(true);
-         progressBar.setString(String.format("%d/%d",(int)fakeemon.getCurrentHP(),(int)fakeemon.getMaxHP()));
-
-     }
 
 
     enum playerLocation {
