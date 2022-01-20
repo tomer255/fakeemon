@@ -65,6 +65,14 @@ public class Fakeemon {
         this.currentHP = min(this.currentHP + amount,this.MaxHP);
     }
 
+    public void AddSpeedAmplifier (int addToAmplifier){
+        speedAmplifier += addToAmplifier * 0.1f;
+    }
+
+    public void AddDefenseStrengthAmplifier (int addToAmplifier){
+        defenseStrengthAmplifier += addToAmplifier* 0.1f;
+    }
+
     public Fakeemon(String Name, TypeBalance.ElementType type, float MaxHP, float currentHP, List<Move> attackPool,
                     float attackDamage, float defenseStrength, float spAtkBaseDamage, float spDefBaseStrength, float speed) {
         this.Name = Name;
