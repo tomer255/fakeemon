@@ -54,5 +54,7 @@ public class TypeBalance {
         Fire,
         Water,
         Grass,
+        Flying,
+        Electric
     }
 }
