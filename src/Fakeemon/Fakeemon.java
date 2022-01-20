@@ -8,17 +8,17 @@ import static java.lang.Float.max;
 import static java.lang.Float.min;
 
 public class Fakeemon {
-    private String Name;
-    private TypeBalance.Type type;
-    private float MaxHP;
+    private final String Name;
+    private final TypeBalance.ElementType type;
+    private final float MaxHP;
     private float currentHP;
-    private List<Move> attackPool;
-    private float attackDamage;
-    private float defenseStrength;
-    private float spAtkBaseDamage;
-    private float spDefBaseStrength;
-    private float speed;
-    private float attackDamageAmplifier;
+    private final List<Move> attackPool;
+    private final float attackDamage;
+    private final float defenseStrength;
+    private final float spAtkBaseDamage;
+    private final float spDefBaseStrength;
+    private final float speed;
+    private final float attackDamageAmplifier;
     private float defenseStrengthAmplifier;
     private float spAtkBaseDamageAmplifier;
     private float spDefBaseStrengthAmplifier;
@@ -36,12 +36,25 @@ public class Fakeemon {
         return Name;
     }
 
-    public TypeBalance.Type getType() {
+    public TypeBalance.ElementType getType() {
         return type;
     }
 
+    public float getSpeed() {
+        return speed * speedAmplifier;
+    }
+    
+    public float getDefenseStrength(){
+        return defenseStrength * defenseStrengthAmplifier;
+    }
+
     public void Damage(float amount){
-        this.currentHP = max(this.currentHP - amount,0);
+        float newHP = this.currentHP - (amount / getDefenseStrength());
+        this.currentHP = max(newHP,0);
+    }
+
+    public String getDescription(){
+        return String.format("Name:%s HP:%s/%s",Name,currentHP,MaxHP);
     }
 
     public List<Move> getAttackPool() {
@@ -52,7 +65,7 @@ public class Fakeemon {
         this.currentHP = min(this.currentHP + amount,this.MaxHP);
     }
 
-    public Fakeemon(String Name, TypeBalance.Type type, float MaxHP, float currentHP, List<Move> attackPool,
+    public Fakeemon(String Name, TypeBalance.ElementType type, float MaxHP, float currentHP, List<Move> attackPool,
                     float attackDamage, float defenseStrength, float spAtkBaseDamage, float spDefBaseStrength, float speed) {
         this.Name = Name;
         this.type = type;
