@@ -9,30 +9,31 @@ public abstract class Move {
     protected int MaxPP;
     protected int Power;
     protected float accuracy;
-    protected TypeBalance.Type type;
+    protected TypeBalance.ElementType type;
 
     public String getName() {
-        return name + PP + '/' + MaxPP;
+        return name + " " + PP + '/' + MaxPP;
     }
 
-    public boolean use(Fakeemon attacker, Fakeemon defender){
+    public void use(Fakeemon attacker, Fakeemon defender){
         Random rand = new Random();
         if(PP <= 0){
             System.out.println("No PP left");
-            return false;
+            return;
         }
-        if(accuracy < rand.nextFloat()){
+        if(getFinalAccuracy(defender) < rand.nextFloat()){
             System.out.println("Miss");
-            return false;
         }
-        activate(attacker, defender);
+        else {
+            activate(attacker, defender);
+        }
         PP--;
-        System.out.println(getName());
-        System.out.println(String.format("attacker HP: %s",attacker.getCurrentHP()));
-        System.out.println(String.format("defender HP: %s",defender.getCurrentHP()));
-        System.out.println(String.format("PP left: %s",PP));
-        return true;
+    }
+
+    private float getFinalAccuracy(Fakeemon fakeemon){
+        return accuracy - fakeemon.getSpeed()*0.05f;
     }
 
     abstract void activate(Fakeemon attacker, Fakeemon defender);
+    public abstract String getDescription();
 }
