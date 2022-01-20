@@ -1,27 +1,22 @@
 package GUI;
 
 import Fakeemon.*;
-import Moves.Absorb;
-import Moves.Move;
+import Item.*;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class BattleFrame extends JFrame {
 
-    private BattleSideMenu battleSideMenu;
-    private BattleArena battleArena;
-    private DynamicMenu dynamicMenu;
+    private final BattleSideMenu battleSideMenu;
+    private final BattleArena battleArena;
+    private final DynamicMenu dynamicMenu;
 
-    private Player player1 = new Player();
-    private Player player2 = new Player();
+    private Player currPlayer = new Player();
+    private Player enemyPlayer = new Player();
 
     public BattleFrame() {
         this.setTitle("fakeemon");
@@ -31,9 +26,7 @@ public class BattleFrame extends JFrame {
         this.setIconImage(icon.getImage());
         this.setSize(600, 400);
 
-//        TypeBalance.
-
-        BufferedImage myPicture = null;
+        BufferedImage myPicture;
         try {
             myPicture = ImageIO.read(new File("./images/grass-background.png"));
             JLabel picLabel = new JLabel(new ImageIcon(myPicture));
@@ -45,25 +38,24 @@ public class BattleFrame extends JFrame {
 
         this.setLayout(null);
 
-        List<Move> moves = new ArrayList<>();
-        moves.add(new Absorb());
-        moves.add(new Absorb());
-        moves.add(new Absorb());
-        moves.add(new Absorb());
 
+        currPlayer.addFakeemon(FakeemonGenerator.GenerateFakeemon(FakeemonGenerator.fakeemonID.anoleaf));
+        currPlayer.addFakeemon(FakeemonGenerator.GenerateFakeemon(FakeemonGenerator.fakeemonID.aardart));
+        enemyPlayer.addFakeemon(FakeemonGenerator.GenerateFakeemon(FakeemonGenerator.fakeemonID.agnite));
 
-        Fakeemon fakeemon2 = new Fakeemon("agnite", TypeBalance.Type.Fire, 125, 120,
-                moves,3.4f,3.5f,3.5f,3f,5f);
-
-        Fakeemon fakeemon1 = new Fakeemon("anoleaf", TypeBalance.Type.Water, 105, 77,
-                moves,3.4f,3.5f,3.5f,3f,5f);
-
-        player1.addFakeemon(fakeemon1);
-        player2.addFakeemon(fakeemon2);
+        currPlayer.addItem(new AssaultVest());
+        currPlayer.addItem(new HealthCandy());
+        currPlayer.addItem(new HealthCandyL());
+        currPlayer.addItem(new HealthCandyXL());
+        currPlayer.addItem(new Iron());
+        currPlayer.addItem(new QuickCandy());
+        currPlayer.addItem(new QuickCandyL());
+        currPlayer.addItem(new QuickCandyXL());
+        currPlayer.addItem(new Zinc());
 
         battleSideMenu = new BattleSideMenu();
-        battleArena = new BattleArena(fakeemon2,fakeemon1);
-        dynamicMenu = new DynamicMenu();
+        battleArena = new BattleArena(this);
+        dynamicMenu = new DynamicMenu(this);
 
         this.add(battleSideMenu);
         this.add(battleArena);
@@ -74,41 +66,103 @@ public class BattleFrame extends JFrame {
         this.setVisible(true);
     }
 
-    void setActionListeners(){
-        setMoveActionListeners();
+    public BattleArena getBattleArena() {
+        return battleArena;
     }
 
-    void setMoveActionListeners(){
-        CustomButton ButtonAttackMenu = battleSideMenu.getButtonAttackMenu();
+    public DynamicMenu getDynamicMenu() {
+        return dynamicMenu;
+    }
+
+    public BattleSideMenu getBattleSideMenu() {
+        return battleSideMenu;
+    }
+
+    public Player getCurrPlayer() {
+        return currPlayer;
+    }
+
+    public Player getEnemyPlayer() {
+        return enemyPlayer;
+    }
+
+    public void showFeedback() {
+        dynamicMenu.removeAll();
+        FeedbackPanel feedbackPanel = dynamicMenu.getFeedbackPanel();
+        battleSideMenu.setEnabledButtons(false);
+        dynamicMenu.add(feedbackPanel);
+
+        battleArena.updateDisplay(this);
+    }
+
+    public void endTurn(){
+        swapPlayers();
+        dynamicMenu.removeAll();
+        battleSideMenu.setEnabledButtons(true);
+        battleArena.updateDisplay(this);
+    }
+
+    private void swapPlayers(){
+        Player temp = currPlayer;
+        currPlayer = enemyPlayer;
+        enemyPlayer = temp;
+    }
+
+    void setActionListeners() {
+        setMoveActionListeners();
+        setItemActionListeners();
+        setChangeFakeemonActionListeners();
+    }
+
+    void setItemActionListeners() {
+        CustomButton ButtonOpenBagMenu = battleSideMenu.getBtnOpenBagMenu();
         BattleFrame battleFrame = this;
 
-        Fakeemon fakeemon1 = player1.getFakeemon();
-        Fakeemon fakeemon2 = player2.getFakeemon();
-        ButtonAttackMenu.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                //---------------------------------
-                dynamicMenu.removeAll();
-                dynamicMenu.getMoveMenu().removeAll();
-                for (Move move: fakeemon1.getAttackPool()) {
-                    CustomButton btnMove = new CustomButton(move.getName());
-                    btnMove.addActionListener(new ActionListener() {
-                        @Override
-                        public void actionPerformed(ActionEvent e) {
-                            move.use(fakeemon1,fakeemon2);
-                            battleArena.update();
-                            btnMove.setText(move.getName());
-                        }
-                    });
-                    dynamicMenu.getMoveMenu().add(btnMove);
-                }
-                dynamicMenu.add(dynamicMenu.getMoveMenu());
-                //---------------------------------
+        ButtonOpenBagMenu.addActionListener((event) -> {
+                    dynamicMenu.removeAll();
+                    ItemMenu itemMenu = dynamicMenu.getItemMenu();
+                    itemMenu.setButtonsPanel(battleFrame);
+                    dynamicMenu.add(itemMenu);
 
-                // refresh the panels
-                battleFrame.repaint();
-                battleFrame.revalidate();
-            }
-        });
+                    // refresh the panels
+                    battleFrame.repaint();
+                    battleFrame.revalidate();
+                }
+        );
+    }
+
+
+    void setMoveActionListeners() {
+        CustomButton buttonAttackMenu = battleSideMenu.getButtonAttackMenu();
+        BattleFrame battleFrame = this;
+
+        buttonAttackMenu.addActionListener((event) -> {
+                    dynamicMenu.removeAll();
+                    MoveMenu moveMenu = dynamicMenu.getMoveMenu();
+                    moveMenu.setButtonsPanel(battleFrame);
+                    dynamicMenu.add(dynamicMenu.getMoveMenu());
+
+                    // refresh the panels
+                    battleFrame.repaint();
+                    battleFrame.revalidate();
+                }
+        );
+    }
+
+    void setChangeFakeemonActionListeners() {
+        CustomButton ButtonChangeFakeemonMenu = battleSideMenu.getBtnChangeFakekemonMenu();
+        BattleFrame battleFrame = this;
+
+        ButtonChangeFakeemonMenu.addActionListener((event) -> {
+                    dynamicMenu.removeAll();
+                    ChangeFakeemonMenu changeFakeemonMenu = dynamicMenu.getCahngeFakeemonMenu();
+                    changeFakeemonMenu.setButtonsPanel(battleFrame);
+                    dynamicMenu.add(changeFakeemonMenu);
+
+                    // refresh the panels
+                    battleFrame.repaint();
+                    battleFrame.revalidate();
+                }
+        );
     }
 }
