@@ -17,6 +17,12 @@ public class Absorb extends Move{
     void activate(Fakeemon attacker, Fakeemon defender) {
         float damage = Power * TypeBalance.getBonus(type,defender.getType());
         defender.Damage(damage);
-        attacker.Heal(damage);
+        attacker.Heal(damage/2);
+    }
+
+    @Override
+    public String getDescription() {
+        return "Effect: Damage the opponent and recover half of the damage caused." +
+                "Stats: Low damage skill, high Accuracy.";
     }
 }
