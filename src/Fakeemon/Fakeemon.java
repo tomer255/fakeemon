@@ -15,13 +15,8 @@ public class Fakeemon {
     private final List<Move> attackPool;
     private final float attackDamage;
     private final float defenseStrength;
-    private final float spAtkBaseDamage;
-    private final float spDefBaseStrength;
     private final float speed;
-    private final float attackDamageAmplifier;
     private float defenseStrengthAmplifier;
-    private float spAtkBaseDamageAmplifier;
-    private float spDefBaseStrengthAmplifier;
     private float speedAmplifier;
 
     public float getMaxHP() {
@@ -40,35 +35,64 @@ public class Fakeemon {
         return type;
     }
 
-    public float getSpeed() {
-        return speed * speedAmplifier;
-    }
-    
-    public float getDefenseStrength(){
-        return defenseStrength * defenseStrengthAmplifier;
-    }
-
-    public void Damage(float amount){
-        float newHP = this.currentHP - (amount / getDefenseStrength());
-        this.currentHP = max(newHP,0);
-    }
-
-    public String getDescription(){
-        return String.format("Name:%s HP:%s/%s",Name,currentHP,MaxHP);
-    }
-
     public List<Move> getAttackPool() {
         return attackPool;
     }
 
-    public void Heal(float amount){
-        this.currentHP = min(this.currentHP + amount,this.MaxHP);
+    /**
+     * Return the formatted description.
+     */
+    public String getDescription(){
+        return String.format("Name:%s HP:%s/%s",Name,currentHP,MaxHP);
     }
 
+    /**
+     * Returns the Fakeemon's speed multiplied by his amplifier.
+     */
+    public float getSpeed() {
+        return speed * speedAmplifier;
+    }
+
+    /**
+     * Returns the Fakeemon's defense strength multiplied by his amplifier.
+     */
+    public float getDefenseStrength(){
+        return defenseStrength * defenseStrengthAmplifier;
+    }
+
+    /**
+     * Calculates the damage done to attacked Fakeemon,
+     * Calculate based on the strength of the attack and defense of the Fakeemon attacked.
+     *
+     * @param attackerDamage - An attacker's damage before calculation.
+     */
+    public void Damage(float attackerDamage){
+        float newHP = this.currentHP - (attackerDamage / getDefenseStrength());
+        this.currentHP = max(newHP,0);
+    }
+
+    public void Heal(float amount) {
+        this.currentHP = min(this.currentHP + amount, this.MaxHP);
+    }
+
+    /**
+     * Return the speed amplifier after calculation.
+     * Converts the integer to a float in order to add it to an amplifier,
+     * which has the values 1.0, 1.1, 1.2, 1.3...
+     *
+     * @param addToAmplifier - An integer represents the amplifier addition.
+     */
     public void AddSpeedAmplifier (int addToAmplifier){
         speedAmplifier += addToAmplifier * 0.1f;
     }
 
+    /**
+     * Return the Defense Strength amplifier after calculation.
+     * Converts the integer to a float in order to add it to an amplifier,
+     * which has the values 1.0, 1.1, 1.2, 1.3...
+     *
+     * @param addToAmplifier - An integer represents the amplifier addition.
+     */
     public void AddDefenseStrengthAmplifier (int addToAmplifier){
         defenseStrengthAmplifier += addToAmplifier* 0.1f;
     }
@@ -82,13 +106,8 @@ public class Fakeemon {
         this.attackPool = attackPool;
         this.attackDamage = attackDamage;
         this.defenseStrength = defenseStrength;
-        this.spAtkBaseDamage = spAtkBaseDamage;
-        this.spDefBaseStrength = spDefBaseStrength;
         this.speed = speed;
-        this.attackDamageAmplifier = 1;
         this.defenseStrengthAmplifier = 1;
-        this.spAtkBaseDamageAmplifier = 1;
-        this.spDefBaseStrengthAmplifier = 1;
         this.speedAmplifier = 1;
     }
 }

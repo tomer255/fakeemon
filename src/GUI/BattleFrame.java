@@ -39,9 +39,9 @@ public class BattleFrame extends JFrame {
         this.setLayout(null);
 
 
-        currPlayer.addFakeemon(FakeemonGenerator.GenerateFakeemon(FakeemonGenerator.fakeemonID.anoleaf));
-        currPlayer.addFakeemon(FakeemonGenerator.GenerateFakeemon(FakeemonGenerator.fakeemonID.aardart));
-        enemyPlayer.addFakeemon(FakeemonGenerator.GenerateFakeemon(FakeemonGenerator.fakeemonID.agnite));
+        currPlayer.addFakeemon(FakeemonGenerator.GenerateFakeemon(FakeemonGenerator.eFakeemonID.anoleaf));
+        currPlayer.addFakeemon(FakeemonGenerator.GenerateFakeemon(FakeemonGenerator.eFakeemonID.aardart));
+        enemyPlayer.addFakeemon(FakeemonGenerator.GenerateFakeemon(FakeemonGenerator.eFakeemonID.agnite));
 
         currPlayer.addItem(new AssaultVest());
         currPlayer.addItem(new HealthCandy());
@@ -89,6 +89,7 @@ public class BattleFrame extends JFrame {
     public void showFeedback() {
         dynamicMenu.removeAll();
         FeedbackPanel feedbackPanel = dynamicMenu.getFeedbackPanel();
+        feedbackPanel.setLabelText("test msg");
         battleSideMenu.setEnabledButtons(false);
         dynamicMenu.add(feedbackPanel);
 

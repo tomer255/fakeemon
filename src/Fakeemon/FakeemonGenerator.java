@@ -6,7 +6,7 @@ import java.util.List;
 
 public class FakeemonGenerator {
 
-    public static Fakeemon GenerateFakeemon(fakeemonID fakeemonName) {
+    public static Fakeemon GenerateFakeemon(FakeemonGenerator.eFakeemonID fakeemonName) {
         int amountOfAttacks = 4;
         Fakeemon fakeemon = null;
         List<Move> moves;
@@ -41,7 +41,7 @@ public class FakeemonGenerator {
     }
 
 
-    public enum fakeemonID {
+    public enum eFakeemonID {
         aardart,
         agnite,
         anoleaf,
