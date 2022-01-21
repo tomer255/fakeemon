@@ -5,29 +5,21 @@ import java.awt.*;
 
 public class FeedbackPanel extends JPanel {
     private final JLabel feedbackLabel = new JLabel();
-    private final CustomButton btnOk = new CustomButton("OK");
 
     public FeedbackPanel(BattleFrame battleFrame) {
-        btnOk.addActionListener((event) -> battleFrame.endTurn()
-        );
-        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        this.setBackground(new Color(1.0f, 1.0f, 1.0f, 0.0f));
-
-        //feedbackLabel.setAlignmentX(JLabel.CENTER_ALIGNMENT);
-        btnOk.setAlignmentX(CustomButton.CENTER_ALIGNMENT);
-        btnOk.setPreferredSize(new Dimension(20, 20));
-
+        this.setLayout(null);
+        this.setBackground(new Color(1.0f, 1.0f, 1.0f, 0.25f));
+        feedbackLabel.setFont(new Font("Times New Roman", Font.BOLD, 20));
+//        feedbackLabel.setForeground(Color.WHITE);
+        feedbackLabel.setBounds(5, -50, 300, 150);
+        CustomButton btnOk = new CustomButton("OK");
+        btnOk.setBounds(200, 100, 80, 40);
+        btnOk.addActionListener((event) -> battleFrame.endTurn());
         this.add(feedbackLabel);
         this.add(btnOk);
     }
 
     public void setLabelText(String msg) {
-        String htmlContent =  String.format("<html><p style=\"text-align:center\"><strong><span style=\"font-size:24px\"><span style=\"font-family:Comic Sans MS,cursive\">%s</span></span></strong>\uD83D\uDE00</p></html>",msg);
-        feedbackLabel.setText(htmlContent);
+        feedbackLabel.setText(msg);
     }
-
-    public JButton getBtnOk() {
-        return btnOk;
-    }
-
 }

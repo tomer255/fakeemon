@@ -22,8 +22,9 @@ public class ChangeFakeemonMenu extends JPanel {
             if (fakeemon != player.getFakeemon()) {
                 CustomButton btnChangeFakeemon = new CustomButton(fakeemon.getName());
                 btnChangeFakeemon.addActionListener((event) -> {
+                            String massage = String.format("you switch fakeemon from %s to %s", player.getFakeemon().getName(), fakeemon.getName());
                             player.setCurrentFakeemon(fakeemon);
-                            battleFrame.showFeedback();
+                            battleFrame.showFeedback("test");
                         }
                 );
                 btnChangeFakeemon.setToolTipText(fakeemon.getDescription());

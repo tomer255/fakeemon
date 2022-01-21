@@ -86,10 +86,10 @@ public class BattleFrame extends JFrame {
         return enemyPlayer;
     }
 
-    public void showFeedback() {
+    public void showFeedback(String massage) {
         dynamicMenu.removeAll();
         FeedbackPanel feedbackPanel = dynamicMenu.getFeedbackPanel();
-        feedbackPanel.setLabelText("test msg");
+        feedbackPanel.setLabelText(massage);
         battleSideMenu.setEnabledButtons(false);
         dynamicMenu.add(feedbackPanel);
 

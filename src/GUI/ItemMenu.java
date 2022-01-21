@@ -32,9 +32,10 @@ public class ItemMenu extends JPanel {
             CustomButton btnItem = new CustomButton(item.getName());
             btnItem.setIcon(getImage(item));
             btnItem.addActionListener((event) -> {
+                        String massage = String.format("item %s was used on %s", item.getName(),player.getFakeemon().getName());
                         item.use(player.getFakeemon());
                         player.getItems().remove(item);
-                        battleFrame.showFeedback();
+                        battleFrame.showFeedback(massage);
                     }
             );
             btnItem.setToolTipText(item.getDescription());
