@@ -38,20 +38,8 @@ public class BattleFrame extends JFrame {
 
         this.setLayout(null);
 
+        battleInitialization();
 
-        currPlayer.addFakeemon(FakeemonGenerator.GenerateFakeemon(FakeemonGenerator.eFakeemonID.anoleaf));
-        currPlayer.addFakeemon(FakeemonGenerator.GenerateFakeemon(FakeemonGenerator.eFakeemonID.aardart));
-        enemyPlayer.addFakeemon(FakeemonGenerator.GenerateFakeemon(FakeemonGenerator.eFakeemonID.agnite));
-
-        currPlayer.addItem(new AssaultVest());
-        currPlayer.addItem(new HealthCandy());
-        currPlayer.addItem(new HealthCandyL());
-        currPlayer.addItem(new HealthCandyXL());
-        currPlayer.addItem(new Iron());
-        currPlayer.addItem(new QuickCandy());
-        currPlayer.addItem(new QuickCandyL());
-        currPlayer.addItem(new QuickCandyXL());
-        currPlayer.addItem(new Zinc());
 
         battleSideMenu = new BattleSideMenu();
         battleArena = new BattleArena(this);
@@ -64,6 +52,26 @@ public class BattleFrame extends JFrame {
         setActionListeners();
 
         this.setVisible(true);
+    }
+
+    private void battleInitialization(){
+        for (Fakeemon fakeemon : FakeemonGenerator.generateFakeemonsList(3)){
+            currPlayer.addFakeemon(fakeemon);
+        }
+
+        for (Fakeemon fakeemon : FakeemonGenerator.generateFakeemonsList(3)){
+            enemyPlayer.addFakeemon(fakeemon);
+        }
+
+        for (Iitem item : ItemsListGenerator.generateItemsList(5)){
+            currPlayer.addItem(item);
+        }
+
+        for (Iitem item : ItemsListGenerator.generateItemsList(5)){
+            enemyPlayer.addItem(item);
+        }
+
+
     }
 
     public BattleArena getBattleArena() {
@@ -100,6 +108,11 @@ public class BattleFrame extends JFrame {
         swapPlayers();
         dynamicMenu.removeAll();
         battleSideMenu.setEnabledButtons(true);
+        if (currPlayer.getFakeemon().getCurrentHP() == 0){
+            battleSideMenu.btnChangeFakekemonMenu.doClick();
+            System.out.printf("test: %s",currPlayer.getFakeemon().getCurrentHP());
+            battleSideMenu.setEnabledButtons(false);
+        }
         battleArena.updateDisplay(this);
     }
 
