@@ -1,9 +1,7 @@
 package Fakeemon;
 
 import java.util.List;
-
 import Moves.*;
-
 import static java.lang.Float.max;
 import static java.lang.Float.min;
 
@@ -43,7 +41,7 @@ public class Fakeemon {
      * Return the formatted description.
      */
     public String getDescription(){
-        return String.format("Name:%s HP:%s/%s",Name,currentHP,MaxHP);
+        return String.format("Name:%s HP:%s/%s Type:%s",Name,currentHP,MaxHP,type);
     }
 
     /**
@@ -71,6 +69,9 @@ public class Fakeemon {
         this.currentHP = max(newHP,0);
     }
 
+    /**
+     * Adding the given amount to the current HP and ensuring it does not exceed the maximum HP.
+     */
     public void Heal(float amount) {
         this.currentHP = min(this.currentHP + amount, this.MaxHP);
     }
@@ -97,6 +98,9 @@ public class Fakeemon {
         defenseStrengthAmplifier += addToAmplifier* 0.1f;
     }
 
+    /**
+     * Initialize the attributes of fakeemon.
+     */
     public Fakeemon(String Name, TypeBalance.ElementType type, float MaxHP, float currentHP, List<Move> attackPool,
                     float attackDamage, float defenseStrength, float spAtkBaseDamage, float spDefBaseStrength, float speed) {
         this.Name = Name;
@@ -111,3 +115,4 @@ public class Fakeemon {
         this.speedAmplifier = 1;
     }
 }
+

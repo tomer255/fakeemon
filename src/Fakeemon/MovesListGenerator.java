@@ -7,21 +7,29 @@ import java.util.Collections;
 import java.util.List;
 
 public class MovesListGenerator {
-
-
-    public static List<Move> getMovesList(TypeBalance.ElementType fakeemonType, int amountOfAttacks) {
+    /**
+     * Returns shuffled list of moves filtered by type.
+     *
+     * @param amountOfAttacks - The number of items to be shuffled.
+     * @param fakeemonType - The type of move needs to be shuffled.
+     */
+    public static List<Move> generateMovesList(TypeBalance.ElementType fakeemonType, int amountOfAttacks) {
         List<Move> ShuffeldMoves = new ArrayList<>();
-        List<eMoves> MovesEnumArrayList = getEnumMoveList(fakeemonType);
+        List<eMoves> MovesEnumArrayList = createMoveListByType(fakeemonType);
         Collections.shuffle(MovesEnumArrayList);
         for (int i = 0; i < amountOfAttacks; i++) {
-            ShuffeldMoves.add(getMove(MovesEnumArrayList.get(i)));
+            ShuffeldMoves.add(generateMove(MovesEnumArrayList.get(i)));
         }
         return ShuffeldMoves;
     }
-
-    public static Move getMove(eMoves eMovesEnum){
+    /**
+     * Generate a move based on the ID of the move.
+     *
+     * @param moveID - The move's ID.
+     */
+    public static Move generateMove(eMoves moveID){
         Move move = null;
-        switch (eMovesEnum){
+        switch (moveID){
             case BlazeKick -> move = new BlazeKick();
             case FireSpin -> move = new FireSpin();
             case FlameWheel -> move = new FlameWheel();
@@ -51,7 +59,12 @@ public class MovesListGenerator {
         return move;
     }
 
-    public static List<eMoves> getEnumMoveList(TypeBalance.ElementType elementType){
+    /**
+     * Create a list of moves for a specific type of fakeemon.
+     *
+     * @param elementType - The fakkemon's type.
+     */
+    public static List<eMoves> createMoveListByType(TypeBalance.ElementType elementType){
         List<eMoves> eMovesList = null;
         switch (elementType){
             case Fire -> eMovesList = new ArrayList<>(){{
@@ -98,6 +111,9 @@ public class MovesListGenerator {
         return eMovesList;
     }
 
+    /**
+     * Represent moves as an ID.
+     */
     public enum eMoves{
         //Fire
         BlazeKick,
