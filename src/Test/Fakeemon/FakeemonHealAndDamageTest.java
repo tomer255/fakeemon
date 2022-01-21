@@ -8,7 +8,7 @@ import java.util.List;
 
 import static junit.framework.TestCase.assertEquals;
 
-public class FakeemonTest {
+public class FakeemonHealAndDamageTest {
 
     @Test
     public void TestDamageFakeemon()
